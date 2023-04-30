@@ -4,6 +4,8 @@ import 'package:widgets_app/config/menu/menu_items.dart';
 
 
 class HomeScreen extends StatelessWidget {
+  static const String name = 'home_screen';
+
   const HomeScreen({super.key});
 
   @override
@@ -50,11 +52,19 @@ class _CustomListTile extends StatelessWidget {
       subtitle: Text(menuItem.subtitle),
       // tileColor: Colors.amber,
       onTap: () {
+        //  Base navigator
         // Navigator.of(context).push(
         //   MaterialPageRoute(builder: (context) => const ButtonsScreen())
         // );
+
+        //  Base navigator with named routes in homescreen
         // Navigator.pushNamed(context, menuItem.link);
+
+        //  Go router with routes in homescreen
+        // context.pushNamed(CardsScreen.name);
+        
         context.push(menuItem.link);
+
       }
     );
   }

@@ -16,6 +16,12 @@ class MenuItem {
 
 const appMenuItems = <MenuItem>[
   MenuItem(
+      icon: Icons.add,
+      link: '/counter',
+      title: 'Riverpod Counter',
+      subtitle: 'Example counter'),
+
+  MenuItem(
       icon: Icons.smart_button_outlined,
       link: '/buttons',
       title: 'Buttons',
@@ -52,14 +58,20 @@ const appMenuItems = <MenuItem>[
       subtitle: 'Controls from Flutter'),
 
   MenuItem(
-      icon: Icons.accessible_rounded,
-      link: '/tutorial',
-      title: 'App Tutorial',
-      subtitle: 'Smnall introductory tutorial'),
-
-  MenuItem(
       icon: Icons.list_alt_outlined,
       link: '/infinite',
       title: 'Inifnite scroll',
       subtitle: 'Infinite scroll example'),
+      
+  MenuItem(
+      icon: Icons.accessible_rounded,
+      link: '/tutorial',
+      title: 'App Tutorial',
+      subtitle: 'Small introductory tutorial'),
+
+  MenuItem(
+      icon: Icons.color_lens_outlined,
+      link: '/theme-changer',
+      title: 'Theme changer',
+      subtitle: 'Theme changer screen'),
 ];

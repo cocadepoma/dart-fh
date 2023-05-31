@@ -19,7 +19,7 @@ class MoviesSlideshow extends StatelessWidget {
       height: 210,
       width: double.infinity,
       child: Swiper(
-        onTap: (index) => context.push('/movie/${movies[index].id}'),
+        onTap: (index) => context.push('/home/0/movie/${movies[index].id}'),
         viewportFraction: 0.8,
         scale: 0.9,
         autoplay: true,

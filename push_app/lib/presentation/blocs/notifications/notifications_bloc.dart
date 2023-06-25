@@ -81,7 +81,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     add(NotificationReceived(notification));
   }
 
-  void _onForeGroundMessage(){
+  void _onForeGroundMessage(){  
     FirebaseMessaging.onMessage.listen(handleRemoteMessage);
   }
   

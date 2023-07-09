@@ -94,6 +94,7 @@ class _LoginForm extends ConsumerWidget {
             label: 'Password',
             obscureText: true,
             onChanged: ref.read(loginFormProvider.notifier).onPasswordChanged,
+            onSubmitted: (_) => ref.read(loginFormProvider.notifier).onFormSubmit(),
             errorMessage: loginForm.isFormPosted
               ? loginForm.password.errorMessage
               : null
@@ -107,9 +108,9 @@ class _LoginForm extends ConsumerWidget {
             child: CustomFilledButton(
               text: 'Login',
               buttonColor: Colors.black,
-              onPressed: (){
-                ref.read(loginFormProvider.notifier).onFormSubmit();
-              },
+              onPressed: loginForm.isPosting
+                ? null
+                : ref.read(loginFormProvider.notifier).onFormSubmit
             )
           ),
 
@@ -121,7 +122,7 @@ class _LoginForm extends ConsumerWidget {
               const Text('Are you not registered?'),
               TextButton(
                 onPressed: ()=> context.push('/register'), 
-                child: const Text('Crete an account')
+                child: const Text('Create an account')
               )
             ],
           ),

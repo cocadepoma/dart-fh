@@ -1,19 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_shop/features/domain/domain.dart';
 import 'package:teslo_shop/features/infrastucture/infrastucture.dart';
+import 'package:teslo_shop/features/shared/infrastucture/services/key_value_storage_service_impl.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = AuthRepositoryImplementation();
+  final keyValueStorageServiceImpl = KeyValueStorageServiceImpl();
 
-  return AuthNotifier(authRepository: authRepository);
+  return AuthNotifier(
+    authRepository: authRepository,
+    keyValueStorageServiceImpl: keyValueStorageServiceImpl,
+  );
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository authRepository;
+  final KeyValueStorageServiceImpl keyValueStorageServiceImpl;
 
   AuthNotifier({
-    required this.authRepository
-  }): super(AuthState());
+    required this.authRepository,
+    required this.keyValueStorageServiceImpl,
+  }): super(AuthState()) {
+    checkAuthStatus();
+  }
   
   Future<void> loginUser (String email, String password) async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -39,12 +48,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  void checkAuthStatus () async {
+  void checkAuthStatus() async {
+    final token = await keyValueStorageServiceImpl.getValue<String>('token');
 
+    if(token == null) return logout();
+
+    try {
+      final user = await authRepository.checkAuthStatus(token);
+      _setLoggedUser(user);
+    } catch (e) {
+      logout();
+    }
   }
 
-  void _setLoggedUser(User user) {
-    // TODO: token 
+  void _setLoggedUser(User user) async {
+    await keyValueStorageServiceImpl.setKeyValue('token', user.token);
+
     state = state.copyWith(
       user: user,
       authStatus: AuthStatus.authenticated,
@@ -53,7 +72,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> logout([String? errorMessage]) async {
-    // TODO: clean token
+    await keyValueStorageServiceImpl.removeKey('token');
+
     state = state.copyWith(
       authStatus: AuthStatus.notAuthenticated,
       user: null,
@@ -70,7 +90,7 @@ class AuthState {
   final String errorMessage;
 
   AuthState({
-    this.authStatus = AuthStatus.notAuthenticated,
+    this.authStatus = AuthStatus.checking,
     this.user,
     this.errorMessage = ''
   });

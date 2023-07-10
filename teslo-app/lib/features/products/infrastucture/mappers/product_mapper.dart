@@ -3,7 +3,7 @@ import 'package:teslo_shop/features/infrastucture/infrastucture.dart';
 import 'package:teslo_shop/features/products/domain/domain.dart';
 
 class ProductMapper {
-  static jsonToEntity(Map<String, dynamic> json) => Product(
+  static Product jsonToEntity(Map<String, dynamic> json) => Product(
     id: json['id'],
     title: json['title'],
     price: double.parse(json['price'].toString()),

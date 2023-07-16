@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:teslo_shop/features/auth/presentation/providers/auth_provider.dart';
-import 'package:teslo_shop/features/shared/infrastucture/inputs/confirmed_password.dart';
 import 'package:teslo_shop/features/shared/infrastucture/inputs/full_name.dart';
 import 'package:teslo_shop/features/shared/infrastucture/inputs/inputs.dart';
 
@@ -39,8 +38,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     state = state.copyWith(
         password: newPassword,
         isValid: Formz.validate([newPassword, state.confirmedPassword, state.fullName, state.email]));
-    
-    print('hey');
   }
 
   onConfirmedPasswordChanged(String value) {
